@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mote/app.dart';
+import 'package:mote/core/common/presentation/app.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
