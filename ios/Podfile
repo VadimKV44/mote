@@ -1,0 +1,65 @@
+# Устанавливает минимальную версию iOS для проекта.
+platform :ios, '12.0' 
+
+# Отключает предупреждение о неиспользуемом мастер-репозитории CocoaPods.
+install! 'cocoapods', :warn_for_unused_master_specs_repo => false
+
+# Отключает отправку аналитики CocoaPods, что может ускорить сборку Flutter.
+ENV['COCOAPODS_DISABLE_STATS'] = 'true'
+
+# Определяет конфигурации сборки для проекта Runner.
+project 'Runner', {
+  'Debug' => :debug,
+  'Profile' => :release,
+  'Release' => :release,
+}
+
+# Функция для определения корневого каталога Flutter.
+def flutter_root
+
+  # Функция определяет путь к файлу Generated.xcconfig
+  generated_xcode_build_settings_path = File.expand_path(File.join('..', 'Flutter', 'Generated.xcconfig'), __FILE__)
+
+  # Проверяется существование этого файла
+  unless File.exist?(generated_xcode_build_settings_path)
+    raise "#{generated_xcode_build_settings_path} must exist. If you're running pod install manually, make sure flutter pub get is executed first"
+  end
+  # Если файл не существует, выбрасывается исключение с инструкцией выполнить flutter pub get.
+
+  # Функция читает файл Generated.xcconfig построчно
+  # Она ищет строку, начинающуюся с FLUTTER_ROOT=, и возвращает значение после знака равенства.
+  File.foreach(generated_xcode_build_settings_path) do |line|
+    matches = line.match(/FLUTTER_ROOT\=(.*)/)
+    return matches[1].strip if matches
+  end
+  # Если FLUTTER_ROOT не найден, выбрасывается исключение
+  raise "FLUTTER_ROOT not found in #{generated_xcode_build_settings_path}. Try deleting Generated.xcconfig, then run flutter pub get"
+end
+
+# Загружает подхелпер Flutter для CocoaPods.
+require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelper'), flutter_root)
+
+# Выполняет настройку Podfile для Flutter.
+flutter_ios_podfile_setup
+
+# Определяет цель Runner и её настройки.
+target 'Runner' do
+  # Указывают использовать фреймворки и модульные заголовки.
+  use_frameworks!
+  use_modular_headers!
+
+  # Устанавливает все необходимые поды для Flutter.
+  flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+
+  # Настройки для целей тестирования
+  target 'RunnerTests' do
+    inherit! :search_paths
+  end
+end
+
+# Выполняет дополнительные настройки после установки подов.
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    flutter_additional_ios_build_settings(target)
+  end
+end
