@@ -12,8 +12,13 @@ class NotesScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Notes'),
       ),
-      body: const Center(
-        child: Text('Notes'),
+      body: ListView.builder(
+        itemCount: 20,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text('Note $index'),
+          );
+        },
       ),
     );
   }

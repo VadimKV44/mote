@@ -36,6 +36,7 @@ build/
 flutter_*.png
 linked_*.ds
 unlinked.ds
+devtools_options.yaml
 
 # iOS/XCode related
 **/ios/**/*.mode1v3
@@ -81,6 +82,5 @@ app.*.map.json
 *.gr.dart
 *.gen.dart
 *.config.dart
-*.freezed.dart
 *.mocks.dart
 pubspec.lock

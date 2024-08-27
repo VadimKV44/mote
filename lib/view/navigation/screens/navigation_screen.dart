@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:mote/config/common/presentation/router/app_router.gr.dart';
-import 'package:mote/config/common/presentation/widgets/bottom_navigation_bar_widget.dart';
+import 'package:mote/config/common/presentation/ui_kit/ui_kit.dart';
 
 /// Страница [NavigationScreen] для внутренней навигации в приложении.
 /// Содержит в себе все основные маршруты приложения.
@@ -10,36 +10,32 @@ class NavigationScreen extends StatelessWidget {
   const NavigationScreen({super.key});
 
   /// Список главных маршрутов приложения.
-  static List<PageRouteInfo> get _routes => [
-        const NotesRoute(),
-        const TasksRoute(),
-        const SettingsRoute(),
+  static List<PageRouteInfo> get _routes => const [
+        NotesRoute(),
+        TasksRoute(),
+        SettingsRoute(),
       ];
 
   @override
   Widget build(BuildContext context) {
     return AutoTabsScaffold(
       routes: _routes,
+      extendBody: true,
       extendBodyBehindAppBar: true,
-      bottomNavigationBuilder: (_, tabsRouter) => BottomNavigationBarWidget(
-        tabsRouter: tabsRouter,
-      ),
-      transitionBuilder: (context, child, animation) => TransitionBuilderWidget(
-        animation: animation,
-        child: child,
-      ),
+      bottomNavigationBuilder: (_, tabsRouter) => UI.bottomBar(tabsRouter),
+      transitionBuilder: (_, child, animation) =>
+          _TransitionBuilderWidget(animation: animation, child: child),
     );
   }
 }
 
 /// Виджет для создания анимированного перехода между табами.
 ///
-/// [TransitionBuilderWidget] использует [SlideTransition] для создания
+/// [_TransitionBuilderWidget] использует [SlideTransition] для создания
 /// эффекта скольжения при переключении между табами. Направление анимации
 /// определяется на основе текущего и предыдущего индексов таба.
-class TransitionBuilderWidget extends StatelessWidget {
-  const TransitionBuilderWidget({
-    super.key,
+class _TransitionBuilderWidget extends StatelessWidget {
+  const _TransitionBuilderWidget({
     required this.child,
     required this.animation,
   });
@@ -58,6 +54,7 @@ class TransitionBuilderWidget extends StatelessWidget {
         final tabsRouter = AutoTabsRouter.of(context);
         // Определяем направление анимации на основе индексов табов
         final isRtl = tabsRouter.activeIndex > (tabsRouter.previousIndex ?? 0);
+
         return SlideTransition(
           position: Tween<Offset>(
             // Начальное положение зависит от направления перехода
