@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:mote/config/common/presentation/router/app_router.gr.dart';
 import 'package:mote/config/common/presentation/ui_kit/ui_kit.dart';
+import 'package:mote/config/common/presentation/ui_kit/widgets/bg_gradient_widget.dart';
 
 /// Страница [NavigationScreen] для внутренней навигации в приложении.
 /// Содержит в себе все основные маршруты приложения.
@@ -18,13 +19,15 @@ class NavigationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AutoTabsScaffold(
-      routes: _routes,
-      extendBody: true,
-      extendBodyBehindAppBar: true,
-      bottomNavigationBuilder: (_, tabsRouter) => UI.bottomBar(tabsRouter),
-      transitionBuilder: (_, child, animation) =>
-          _TransitionBuilderWidget(animation: animation, child: child),
+    return BGGradientWidget(
+      child: AutoTabsScaffold(
+        routes: _routes,
+        extendBody: true,
+        extendBodyBehindAppBar: true,
+        bottomNavigationBuilder: (_, tabsRouter) => UIKit.bottomBar(tabsRouter),
+        transitionBuilder: (_, child, animation) =>
+            _TransitionBuilderWidget(animation: animation, child: child),
+      ),
     );
   }
 }

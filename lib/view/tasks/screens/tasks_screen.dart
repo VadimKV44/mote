@@ -9,11 +9,14 @@ class TasksScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Tasks'),
-      ),
-      body: const Center(
-        child: Text('Tasks'),
+      body: ListView.builder(
+        padding: const EdgeInsets.only(top: 130),
+        itemCount: 20,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text('Note $index'),
+          );
+        },
       ),
     );
   }

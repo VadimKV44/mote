@@ -1,8 +1,10 @@
-import 'dart:ui';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:mote/config/common/presentation/ui_kit/ui_elements/bottom_nav_bar/_nav_bar_icon_widget.dart';
+import 'package:mote/config/common/presentation/ui_kit/ui_kit.dart';
+import 'package:mote/config/common/presentation/ui_kit/widgets/bg_blur_widget.dart';
+import 'package:mote/config/utils/constants/app_sizes.dart';
+import 'package:mote/config/utils/gen/assets.gen.dart';
 
 /// Виджет нижней навигации для переключения между экранами
 /// приложения в [AutoTabsScaffold].
@@ -16,45 +18,49 @@ class BottomNavigationBarWidget extends StatelessWidget {
   final TabsRouter tabsRouter;
 
   /// Список элементов нижней навигации.
-  List<_BottomNavBarItem> get _items => const [
+  List<_BottomNavBarItem> get _items => [
         _BottomNavBarItem(
           title: 't.routes.notes',
-          // inactiveIcon: _bottomIcons.homeStroke,
-          // activeIcon: _bottomIcons.homeFilled,
+          inactiveIcon: UIKit.icons.bottomBar.inactiveNotes,
+          activeIcon: UIKit.icons.bottomBar.activeNotes,
         ),
         _BottomNavBarItem(
           title: 't.routes.tasks',
-          // inactiveIcon: _bottomIcons.catalogStroke,
-          // activeIcon: _bottomIcons.catalogFilled,
+          inactiveIcon: UIKit.icons.bottomBar.inactiveTasks,
+          activeIcon: UIKit.icons.bottomBar.activeTasks,
         ),
         _BottomNavBarItem(
           title: 't.routes.settings',
-          // inactiveIcon: _bottomIcons.cartStroke,
-          // activeIcon: _bottomIcons.cartFilled,
+          inactiveIcon: UIKit.icons.bottomBar.inactiveSettings,
+          activeIcon: UIKit.icons.bottomBar.activeSettings,
         ),
       ];
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: Container(
-              height: 64,
-              color: Colors.red.withOpacity(0.2),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: List.generate(
-                  _items.length,
-                  (index) => NavBarIconWidget(
-                    active: tabsRouter.activeIndex == index,
-                    onTap: () => tabsRouter.setActiveIndex(index),
-                  ),
-                ),
+    final ui = UIKit(context);
+    final bottomBarHeight =
+        AppSizes.kBottomBarHeight + MediaQuery.of(context).padding.bottom;
+
+    return BGBlurWidget(
+      child: Container(
+        height: bottomBarHeight,
+        decoration: BoxDecoration(
+          color: ui.colors.mainColors.bgBottomBar.withOpacity(0.5),
+          border: BorderDirectional(
+            top: BorderSide(color: ui.colors.mainColors.blue),
+          ),
+        ),
+        child: SafeArea(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: List.generate(
+              _items.length,
+              (index) => NavBarIconWidget(
+                activeIcon: _items[index].activeIcon,
+                inactiveIcon: _items[index].inactiveIcon,
+                active: tabsRouter.activeIndex == index,
+                onTap: () => tabsRouter.setActiveIndex(index),
               ),
             ),
           ),
@@ -68,11 +74,11 @@ class BottomNavigationBarWidget extends StatelessWidget {
 class _BottomNavBarItem {
   const _BottomNavBarItem({
     required this.title,
-    // required this.inactiveIcon,
-    // required this.activeIcon,
+    required this.activeIcon,
+    required this.inactiveIcon,
   });
 
   final String title;
-  // final SvgGenImage inactiveIcon;
-  // final SvgGenImage activeIcon;
+  final SvgGenImage activeIcon;
+  final SvgGenImage inactiveIcon;
 }

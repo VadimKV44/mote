@@ -9,11 +9,14 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Settings'),
-      ),
-      body: const Center(
-        child: Text('Settings'),
+      body: ListView.builder(
+        padding: const EdgeInsets.only(top: 130),
+        itemCount: 20,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text('Note $index'),
+          );
+        },
       ),
     );
   }
