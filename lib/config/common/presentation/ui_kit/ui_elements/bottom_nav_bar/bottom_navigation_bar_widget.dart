@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mote/config/common/presentation/ui_kit/ui_elements/bottom_nav_bar/_nav_bar_icon_widget.dart';
 import 'package:mote/config/common/presentation/ui_kit/ui_kit.dart';
 import 'package:mote/config/common/presentation/ui_kit/widgets/bg_blur_widget.dart';
+import 'package:mote/config/utils/constants/app_constants.dart';
 import 'package:mote/config/utils/constants/app_sizes.dart';
 import 'package:mote/config/utils/gen/assets.gen.dart';
 
@@ -38,7 +39,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ui = UIKit(context);
+    final colors = UIKit.colors(context);
     final bottomBarHeight =
         AppSizes.kBottomBarHeight + MediaQuery.of(context).padding.bottom;
 
@@ -46,9 +47,10 @@ class BottomNavigationBarWidget extends StatelessWidget {
       child: Container(
         height: bottomBarHeight,
         decoration: BoxDecoration(
-          color: ui.colors.mainColors.bgBottomBar.withOpacity(0.5),
+          color: colors.mainColors.bgBottomBar
+              .withOpacity(AppConstants.kOpacity05),
           border: BorderDirectional(
-            top: BorderSide(color: ui.colors.mainColors.blue),
+            top: BorderSide(color: colors.mainColors.blue),
           ),
         ),
         child: SafeArea(

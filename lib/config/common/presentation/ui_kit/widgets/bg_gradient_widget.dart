@@ -12,7 +12,7 @@ class BGGradientWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ui = UIKit(context);
+    final colors = UIKit.colors(context);
 
     return Container(
       decoration: BoxDecoration(
@@ -20,7 +20,7 @@ class BGGradientWidget extends StatelessWidget {
           stops: const [0, 0.75],
           begin: Alignment.topLeft,
           end: Alignment.bottomCenter,
-          colors: ui.colors.gradientColors.bgGradient,
+          colors: colors.gradientColors.bgGradient,
         ),
       ),
       child: child,

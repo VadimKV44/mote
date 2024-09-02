@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mote/config/utils/constants/app_constants.dart';
 
 /// Виджет обёртка, добавляющий небольшую анимацию при нажатии на него.
 class AnimatedTapWidget extends StatefulWidget {
@@ -29,7 +30,7 @@ class _AnimatedTapWidgetState extends State<AnimatedTapWidget>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 200),
+      duration: AppConstants.kDuration200,
       vsync: this,
     );
     _scaleAnimation = Tween<double>(begin: 1.0, end: 0.8).animate(

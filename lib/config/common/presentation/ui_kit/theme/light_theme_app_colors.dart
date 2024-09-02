@@ -3,6 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:mote/config/common/presentation/ui_kit/theme/colors/base_colors.dart';
 import 'package:mote/config/common/presentation/ui_kit/theme/colors/gradient_colors.dart';
 import 'package:mote/config/common/presentation/ui_kit/theme/colors/main_colors.dart';
+import 'package:mote/config/common/presentation/ui_kit/theme/colors/text_colors.dart';
 
 /// Класс [LightThemeAppColors] содержит светлую цветовую тему приложения.
 /// Все изменения для светлой темы производятся в этом классе.
@@ -12,6 +13,7 @@ class LightThemeAppColors extends BaseColors {
       : super(
           mainColors: const _MainColors(),
           gradientColors: const _GradientColors(),
+          textColors: const _TextColors(),
         );
 
   @override
@@ -27,8 +29,7 @@ class LightThemeAppColors extends BaseColors {
   }
 }
 
-/// Класс [MainColors] содержит основные цвета приложения.
-/// [_MainColors] - его реализация.
+/// Класс [_MainColors] содержит основные цвета приложения.
 class _MainColors extends MainColors {
   const _MainColors()
       : super(
@@ -37,8 +38,7 @@ class _MainColors extends MainColors {
         );
 }
 
-/// Класс [GradientColors] - контракт для реализации градиентных цветов в приложении.
-/// [_GradientColors] - его реализация.
+/// Класс [_GradientColors] - содержит цвета для градиентов.
 class _GradientColors extends GradientColors {
   const _GradientColors()
       : super(
@@ -46,5 +46,13 @@ class _GradientColors extends GradientColors {
             Color(0xFFDFE6F3),
             Color(0xFFF8F8FA),
           ],
+        );
+}
+
+/// Класс [_TextColors] - содержит цвета для текста.
+class _TextColors extends TextColors {
+  const _TextColors()
+      : super(
+          blue: const Color(0xFF6478A0),
         );
 }
